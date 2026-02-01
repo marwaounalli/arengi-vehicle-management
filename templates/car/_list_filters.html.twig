@@ -1,0 +1,17 @@
+<div class="card mb-4">
+	<div class="card-body">
+		{{ form_start(form, { attr: { id: 'car-search-form' } }) }}
+		<div class="row g-3">
+			<div class="col-md-4">{{ form_row(form.brand) }}</div>
+			<div class="col-md-4">{{ form_row(form.minPassengers) }}</div>
+			<div class="col-md-2">{{ form_row(form.sort) }}</div>
+			<div class="col-md-2">{{ form_row(form.dir) }}</div>
+		</div>
+
+		<div class="mt-3 d-flex gap-2">
+			<button class="btn btn-outline-primary" type="submit">Filtrer</button>
+			<a class="btn btn-outline-secondary" href="{{ path('car_list') }}">Réinitialiser</a>
+		</div>
+		{{ form_end(form) }}
+	</div>
+</div>

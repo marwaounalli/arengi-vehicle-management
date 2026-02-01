@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une voiture
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1 class="mb-4">Créer une voiture</h1>
+
+		{{ form_start(form) }}
+		{{ form_row(form.brand) }}
+		{{ form_row(form.model) }}
+		{{ form_row(form.type) }}
+		{{ form_row(form.passengers) }}
+		{{ form_row(form.color) }}
+
+		<div id="ptra-container" data-ptra-url="{{ path('car_ptra_field') }}">
+			{% if form.ptra is defined %}
+				{{ form_row(form.ptra) }}
+			{% endif %}
+		</div>
+
+		<input type="hidden" name="redirect" value="{{ redirect }}">
+		<button class="btn btn-primary mt-3">Enregistrer</button>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/car-form.js') }}"></script>
+{% endblock %}

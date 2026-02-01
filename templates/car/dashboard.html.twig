@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard – Voitures
+{% endblock %}
+
+{% block body %}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} mb-3" role="alert">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<div class="container mt-4">
+		<div class="d-flex align-items-center justify-content-between mb-3">
+			<h1 class="mb-0">Dashboard – Voitures</h1>
+			<a class="btn btn-primary" href="{{ path('car_create', { redirect: 'car_dashboard' }) }}">Créer</a>
+		</div>
+
+		{% set q = app.request.query.all %}
+		{% set items = pagination.items ?? [] %}
+		{% set meta  = pagination.pagination ?? {'page': 1, 'pages': 1, 'total': 0, 'limit': 20} %}
+
+		{% set currentSort = q.sort ?? 'createdAt' %}
+		{% set currentDir  = (q.dir ?? 'desc')|lower %}
+
+		<div class="card shadow-sm">
+			<div class="card-body p-0">
+				{% include 'car/_dashboard_table.html.twig' with {
+          items: items,
+          q: q,
+          meta: meta,
+          currentSort: currentSort,
+          currentDir: currentDir
+        } only %}
+
+				{% include 'car/_dashboard_pagination.html.twig' with {
+          q: q,
+          meta: meta
+        } only %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

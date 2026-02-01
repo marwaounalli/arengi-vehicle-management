@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion
+{% endblock %}
+
+{% block body %}
+	<div class="container d-flex justify-content-center align-items-center">
+		<div class="card shadow-sm" style="width: 100%; max-width: 420px;">
+			<div class="card-body p-4">
+
+				<h1 class="h4 mb-4 text-center">Connexion</h1>
+
+				{% if error %}
+					<div class="alert alert-danger">
+						{{ error.messageKey|trans(error.messageData, 'security') }}
+					</div>
+				{% endif %}
+
+				{% if app.user %}
+					<div class="alert alert-info d-flex justify-content-between align-items-center">
+						<span>Connectée en tant que
+							<strong>{{ app.user.userIdentifier }}</strong>
+						</span>
+						<a href="{{ logout_path() }}" class="btn btn-sm btn-outline-secondary">Déconnexion</a>
+					</div>
+				{% endif %}
+
+				<form method="post" class="vstack gap-3">
+					<div>
+						<label for="inputEmail" class="form-label">Email</label>
+						<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+					</div>
+
+					<div>
+						<label for="inputPassword" class="form-label">Mot de passe</label>
+						<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+					</div>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+					<button class="btn btn-primary w-100" type="submit">
+						Se connecter
+					</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

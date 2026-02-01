@@ -1,0 +1,27 @@
+<table class="table table-striped align-middle">
+	<thead>
+		<tr>
+			<th>Créée</th>
+			<th>Marque</th>
+			<th>Modèle</th>
+			<th>Passagers</th>
+			<th>Couleur</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for car in cars %}
+			<tr>
+				<td>{{ car.createdAt|date('Y-m-d H:i') }}</td>
+				<td>{{ car.brand }}</td>
+				<td>{{ car.model }}</td>
+				<td>{{ car.passengers }}</td>
+				<td>{{ car.color }}</td>
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="5" class="text-muted">Aucune voiture trouvée.</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

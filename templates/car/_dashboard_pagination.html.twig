@@ -1,0 +1,72 @@
+{% set page  = meta.page %}
+{% set pages = meta.pages %}
+{% set total = meta.total %}
+{% set limit = meta.limit %}
+
+<div class="d-flex align-items-center justify-content-between p-3 border-top">
+	<div class="text-muted small">
+		{% if total > 0 %}
+			{% set from = ((page - 1) * limit) + 1 %}
+			{% set to = page * limit %}
+			{% if to > total %}
+				{% set to = total %}
+			{% endif %}
+			{{ from }}–{{ to }}
+			sur
+			{{ total }}
+		{% else %}
+			0 résultat
+		{% endif %}
+	</div>
+
+	{% if pages > 1 %}
+		{% set start = page - 2 %}
+		{% set end = page + 2 %}
+		{% if start < 1 %}
+			{% set start = 1 %}
+		{% endif %}
+		{% if end > pages %}
+			{% set end = pages %}
+		{% endif %}
+
+		<nav aria-label="Pagination">
+			<ul class="pagination pagination-sm mb-0">
+				<li class="page-item {{ page <= 1 ? 'disabled' : '' }}">
+					<a class="page-link" href="{{ path('car_dashboard', q|merge({ page: page - 1 })) }}" aria-label="Précédent">‹</a>
+				</li>
+
+				{% if start > 1 %}
+					<li class="page-item">
+						<a class="page-link" href="{{ path('car_dashboard', q|merge({ page: 1 })) }}">1</a>
+					</li>
+					{% if start > 2 %}
+						<li class="page-item disabled">
+							<span class="page-link">…</span>
+						</li>
+					{% endif %}
+				{% endif %}
+
+				{% for p in start..end %}
+					<li class="page-item {{ p == page ? 'active' : '' }}">
+						<a class="page-link" href="{{ path('car_dashboard', q|merge({ page: p })) }}">{{ p }}</a>
+					</li>
+				{% endfor %}
+
+				{% if end < pages %}
+					{% if end < pages - 1 %}
+						<li class="page-item disabled">
+							<span class="page-link">…</span>
+						</li>
+					{% endif %}
+					<li class="page-item">
+						<a class="page-link" href="{{ path('car_dashboard', q|merge({ page: pages })) }}">{{ pages }}</a>
+					</li>
+				{% endif %}
+
+				<li class="page-item {{ page >= pages ? 'disabled' : '' }}">
+					<a class="page-link" href="{{ path('car_dashboard', q|merge({ page: page + 1 })) }}" aria-label="Suivant">›</a>
+				</li>
+			</ul>
+		</nav>
+	{% endif %}
+</div>

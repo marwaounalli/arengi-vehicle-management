@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une voiture
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<div class="d-flex align-items-center justify-content-between mb-4">
+			<h1 class="mb-0">Modifier une voiture</h1>
+
+			<a href="{{ path('car_dashboard', app.request.query.all) }}" class="btn btn-outline-secondary">
+				Retour
+			</a>
+		</div>
+
+		{{ form_start(form) }}
+		{{ form_row(form.brand) }}
+		{{ form_row(form.model) }}
+		{{ form_row(form.type) }}
+		{{ form_row(form.passengers) }}
+		{{ form_row(form.color) }}
+
+		<div id="ptra-container" data-ptra-url="{{ path('car_ptra_field') }}">
+			{% if form.ptra is defined %}
+				{{ form_row(form.ptra) }}
+			{% endif %}
+		</div>
+
+		{% if form._token is defined %}
+			{{ form_row(form._token) }}
+		{% endif %}
+
+		<button class="btn btn-primary mt-3">Enregistrer</button>
+		{{ form_end(form, { render_rest: false }) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="/js/car-form.js"></script>
+{% endblock %}

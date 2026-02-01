@@ -1,0 +1,58 @@
+{% macro sort_th(label, field, q, currentSort, currentDir) %}
+	{% set isCurrent = (currentSort == field) %}
+	{% set nextDir = (isCurrent and currentDir == 'asc') ? 'desc' : 'asc' %}
+	{% set params = q|merge({ sort: field, dir: nextDir, page: 1 }) %}
+
+	<a href="{{ path('car_dashboard', params) }}" class="text-decoration-none">
+		{{ label }}
+		{% if isCurrent %}
+			<span class="ms-1">{{ currentDir == 'asc' ? '▲' : '▼' }}</span>
+		{% endif %}
+	</a>
+{% endmacro %}
+
+{% import _self as ui %}
+
+<div class="table-responsive">
+	<table class="table table-striped table-hover mb-0 align-middle">
+		<thead class="table-light">
+			<tr>
+				<th style="width: 90px;">ID</th>
+				<th>{{ ui.sort_th('Créée le', 'createdAt', q, currentSort, currentDir) }}</th>
+				<th>{{ ui.sort_th('Marque', 'brand', q, currentSort, currentDir) }}</th>
+				<th>{{ ui.sort_th('Modèle', 'model', q, currentSort, currentDir) }}</th>
+				<th class="text-end">{{ ui.sort_th('Places', 'passengers', q, currentSort, currentDir) }}</th>
+				<th style="width: 160px;" class="text-end">Actions</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% if items is empty %}
+				<tr>
+					<td colspan="6" class="text-center text-muted py-4">Aucune voiture.</td>
+				</tr>
+			{% else %}
+				{% for car in items %}
+					<tr>
+						<td class="text-muted">#{{ car.id }}</td>
+						<td>{{ car.createdAt ? car.createdAt|date('d/m/Y H:i') : '—' }}</td>
+						<td>{{ car.brand ?? '—' }}</td>
+						<td>{{ car.model ?? '—' }}</td>
+						<td class="text-end">{{ car.passengers ?? '—' }}</td>
+
+						<td class="text-end">
+							<a class="btn btn-sm btn-outline-secondary" href="{{ path('car_edit', { id: car.id }) ~ '?' ~ app.request.querystring }}">
+								Éditer
+							</a>
+
+							<form method="post" action="{{ path('car_delete', { id: car.id }) ~ '?' ~ app.request.querystring }}" class="d-inline" onsubmit="return confirm('Supprimer cette voiture ?');">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete_car_' ~ car.id) }}">
+								<button class="btn btn-sm btn-outline-danger">Supprimer</button>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+</div>
