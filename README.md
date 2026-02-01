@@ -24,7 +24,7 @@ Le projet est dockerisé pour faciliter l’installation et la démonstration.
 ### 2.1 Cloner le dépôt
 
 ```bash
-git clone <URL_DU_REPO_GITHUB>
+git clone https://github.com/marwaounalli/arengi-vehicle-management.git
 cd arengi-vehicle-management
 ```
 
