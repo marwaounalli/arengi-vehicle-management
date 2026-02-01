@@ -61,13 +61,15 @@ database-fixtures-load: ## Load fixtures
 
 fixtures: ## Alias : database-fixtures-load
 	$(MAKE) database-fixtures-load
-admin-create: ## Alias : database-fixtures-load
+
+admin-create: ## create admin user
 	$(EXEC) "php bin/console app:create-admin --email=admin@test.com --password=admin"
-admin: ## Alias : database-fixtures-load
+
+admin: ## Alias : create admin user
 	$(MAKE) admin-create
 
-
-phpcs-fix:
+phpcs-fix: ## Analyse and fix code style
 	$(EXEC) "php vendor/bin/phpcbf src"
-phpcs:
+
+phpcs: ## Alias : analyse and fix code style
 	$(MAKE) phpcs-fix
