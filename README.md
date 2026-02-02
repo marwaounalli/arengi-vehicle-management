@@ -9,6 +9,8 @@ Test technique Symfony : application de gestion de voitures avec :
 
 Le projet est dockerisé pour faciliter l’installation et la démonstration.
 
+Docker setup est basé sur dunglas/symfony-docker project
+
 ---
 
 ## 1. Prérequis
